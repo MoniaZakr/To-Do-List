@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 class="heading">ToDo List</h1>
+  <header class="form">
+    <p class="error errorHide">Wpisz tekst!</p>
+    <button class="add">
+      <svg class="addItem">
+        <use xlink:href = "assets/sprite.svg#add_black_24dp"></use>
+      </svg>
+    </button>
+    <input type="text" id="input" placeholder="Add task here...">
+    <button class="deadline">
+      <svg class="calendar">
+        <use xlink:href = "assets/sprite.svg#date_range_black_24dp"></use>
+      </svg>
+    </button>
+  <input class="dateDisable" type="date" name="date" id="date">
+
+  </header>
+  <div class="container">
+    <div class="lists">
+      <h2 class="toDo">Do zrobienia</h2>
+      <div class="tasksToDo"></div>
+    </div>
+    <div class="listsOfDone">
+      <h2 class="toDo">Zrobione</h2>
+      <div class="tasksHasBeenDone"></div>
+    </div>
+  </div>
+ <script src="main.js"></script>  
+</body>
+</html>

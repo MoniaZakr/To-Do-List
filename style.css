@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    text-align: center;
+    font-family: 'Satisfy', cursive;
+    background: radial-gradient(circle, pink, white, blue);
+}
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* background-color: pink; */
+    margin: 50px 100px;
+    height: 6rem;
+}
+.error {
+    font-size: 13px;
+    color: red;
+    letter-spacing: 2px;
+    position: absolute;
+    top: -9px;
+}
+.errorHide {
+    display: none;
+}
+.heading {
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+    margin: 60px;
+}
+.add, .deadline {
+    background-color: beige;
+    height: 50px;
+    width: 50px;
+    margin:0 15px;
+    border-radius: 30%;
+    border: solid black 2px;
+    transition: all 1s;
+}
+.add {
+    display: flex;
+    align-items: center;
+}
+
+button:hover {
+    background-color: gray;
+    border: solid 2px white;
+    fill: beige;
+}
+.addItem  {
+    height: 100px;
+    height: 50px;
+}
+.deadline {
+    position: relative;
+    display: flex;
+}
+#input, #date {
+    height: 40px;
+    width: 300px;
+    margin:3px 0;
+    padding: 0 15px;
+    font-size: 16px;
+    border-radius: 20%;
+    border: solid black 2px;
+}
+#date {
+    width: 150px;
+    text-align: center;
+    position: absolute;
+    top: 24%;
+    right:20%;
+}
+.dateDisable {
+    display: none;
+}
+#input:focus {
+    outline: none;
+    border: 2px solid white;
+    background-color:gray;
+    color: white;
+}
+#input::placeholder {
+    color:rgb(202, 55, 55);
+}
+#date:focus {
+    outline: none;
+    border: 2px solid white;
+    background-color:gray;
+    color: white;  
+}
+
+section {
+    display: flex;
+}
+
+.item {
+    list-style: none;
+    font-size: 20px;
+    margin: 10px 10px;
+    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: space-between ;
+}
+.checked, .edit, .delete {
+    height: 50px;
+    width: 50px;
+    margin: 3px 0 0 6px;
+    display: flex;
+    transition: all 1s ;
+    cursor: pointer;
+    
+}
+.lineThrought {
+    text-decoration: line-through;
+}
+
+.icon {
+   height: 50px;
+   width: 50px;
+   /* pointer-events: none;  */
+  
+}
+.icon:hover {
+    fill: white;
+}
+.unchecked {
+    opacity: 0.2;
+}
+p {
+    margin: 15px;
+}
+span {
+    margin-left: 5px;
+    color: brown;
+}
+.buttonsContainer {
+    background-color: brown;
+    display: flex;
+    align-content: end;
+    opacity: 0;
+    transform: translateX(400px);
+}
+.item:hover .buttonsContainer {
+    opacity: 1;
+    transform: translateX(0);
+}
+.lists, .listsOfDone {
+    display: flex;
+    align-content: space-evenly;
+    flex-direction: column;
+    width: 30%;
+
+}
+.container {
+    display: flex;
+    justify-content: space-evenly;
+}
+.toDo {
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
