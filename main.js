@@ -34,23 +34,16 @@ function createToDo( text, date, id) {
   return `<li class="item" id=${id}>
     <section>
       <button class="checked">
-        <svg class="icon">
-          <use xlink:href = "assets/sprite.svg#done_black_24dp">
-          </use>
-        </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" height="" viewBox="0 0 24 24" width="" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/></svg>
       </button>
      <p class="text">${text}<span>${date}</span></p>
     </section>
     <div class="buttonsContainer">
       <button class="edit" id=${id}>
-        <svg class="icon">
-          <use xlink:href = "assets/sprite.svg#edit_black_24dp"></use>
-        </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" height="" viewBox="0 0 24 24" width="" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/></svg>
       </button>
       <button class="delete" id=${id}>
-        <svg class="icon">
-          <use xlink:href = "assets/sprite.svg#delete_black_24dp"></use>
-        </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" height="" viewBox="0 0 24 24" width="" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z"/></svg>
       </button>
     </div>
   </li>`;

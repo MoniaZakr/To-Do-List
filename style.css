@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 body {
+    min-height: 100vh;
     text-align: center;
     font-family: 'Satisfy', cursive;
     background: radial-gradient(circle, pink, white, blue);
@@ -40,25 +41,28 @@ body {
     border-radius: 30%;
     border: solid black 2px;
     transition: all 1s;
+    
 }
-.add {
-    display: flex;
-    align-items: center;
-}
+
 
 button:hover {
     background-color: gray;
     border: solid 2px white;
     fill: beige;
 }
-.addItem  {
-    height: 100px;
-    height: 50px;
-}
+.add {
+    background-image: url("assets/icons/add_circle_black_24dp.svg");
+    background-repeat: no-repeat; 
+    background-size: 100% 100% ;
+}   
+
 .deadline {
-    position: relative;
-    display: flex;
+    background-image: url("assets/icons/today_black_24dp.svg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%; 
 }
+    
+
 #input, #date {
     height: 40px;
     width: 300px;
@@ -69,7 +73,7 @@ button:hover {
     border: solid black 2px;
 }
 #date {
-    width: 150px;
+    width: 160px;
     text-align: center;
     position: absolute;
     top: 24%;
@@ -110,10 +114,24 @@ section {
     height: 50px;
     width: 50px;
     margin: 3px 0 0 6px;
-    display: flex;
     transition: all 1s ;
     cursor: pointer;
     
+}
+.checked {
+    background-image: url("assets/icons/check_circle_outline_black_24dp.svg");
+    background-repeat: no-repeat;
+    background-size: 100% auto; 
+}
+.edit {
+    background-image: url("assets/icons/mode_black_24dp.svg");
+    background-repeat: no-repeat;
+    background-size: 100% auto; 
+}
+.delete {
+    background-image: url("assets/icons/delete_outline_black_24dp.svg");
+    background-repeat: no-repeat;
+    background-size: 100% auto; 
 }
 .lineThrought {
     text-decoration: line-through;
@@ -133,6 +151,12 @@ section {
 }
 p {
     margin: 15px;
+   
+}
+.text {
+     text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 span {
     margin-left: 5px;
