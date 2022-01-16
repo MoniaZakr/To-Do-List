@@ -16,16 +16,14 @@ const tasksToDo = document.querySelector(".tasksToDo");
 const tasksHasBeenDone = document.querySelector(".tasksHasBeenDone");
 
 listOfToDoes = [];
-id = 0;
+let id = 0;
 
 let data = localStorage.getItem("TODO");
   if(data) {
     listOfToDoes = JSON.parse(data);
-    id = listOfToDoes.length
     loadList(listOfToDoes)
   }else{
     listOfToDoes = [];
-    id = 0
 }
 
 
@@ -116,6 +114,7 @@ function editElement(entry) {
   setDate()
 
   entry.remove();
+  listOfToDoes.splice(id, 1)
   localStorage.setItem("TODO", JSON.stringify(listOfToDoes));
 }
   

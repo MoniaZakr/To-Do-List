@@ -14,7 +14,6 @@ body {
     justify-content: center;
     align-items: center;
     position: relative;
-    /* background-color: pink; */
     margin: 50px 100px;
     height: 6rem;
 }
@@ -39,7 +38,7 @@ body {
     width: 50px;
     margin:0 15px;
     border-radius: 30%;
-    border: solid black 2px;
+    border: solid black 1px;
     transition: all 1s;
     
 }
@@ -70,14 +69,14 @@ button:hover {
     padding: 0 15px;
     font-size: 16px;
     border-radius: 20%;
-    border: solid black 2px;
+    border: solid black 1px;
 }
 #date {
     width: 160px;
     text-align: center;
     position: absolute;
     top: 24%;
-    right:20%;
+    right:18%;
 }
 .dateDisable {
     display: none;
@@ -101,7 +100,6 @@ button:hover {
 section {
     display: flex;
 }
-
 .item {
     list-style: none;
     font-size: 20px;
@@ -113,10 +111,11 @@ section {
 .checked, .edit, .delete {
     height: 50px;
     width: 50px;
+    border: 1px solid black;
+    border-radius: 20%;
     margin: 3px 0 0 6px;
-    transition: all 1s ;
+    transition: all 0.5s ;
     cursor: pointer;
-    
 }
 .checked {
     background-image: url("assets/icons/check_circle_outline_black_24dp.svg");
@@ -136,34 +135,17 @@ section {
 .lineThrought {
     text-decoration: line-through;
 }
-
-.icon {
-   height: 50px;
-   width: 50px;
-   /* pointer-events: none;  */
-  
-}
-.icon:hover {
-    fill: white;
-}
 .unchecked {
     opacity: 0.2;
 }
 p {
     margin: 15px;
-   
-}
-.text {
-     text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
 }
 span {
-    margin-left: 5px;
+    margin-left: 15px;
     color: brown;
 }
 .buttonsContainer {
-    background-color: brown;
     display: flex;
     align-content: end;
     opacity: 0;
@@ -177,8 +159,7 @@ span {
     display: flex;
     align-content: space-evenly;
     flex-direction: column;
-    width: 30%;
-
+    width: 45%;
 }
 .container {
     display: flex;
@@ -186,5 +167,5 @@ span {
 }
 .toDo {
     letter-spacing: 2px;
-    margin-bottom: 30px;
+    margin: 40px;
 }
