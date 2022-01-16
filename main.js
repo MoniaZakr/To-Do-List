@@ -114,7 +114,6 @@ function editElement(entry) {
   setDate()
 
   entry.remove();
-  listOfToDoes.splice(id, 1)
   localStorage.setItem("TODO", JSON.stringify(listOfToDoes));
 }
   
