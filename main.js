@@ -60,9 +60,11 @@ function loadList() {
   }
 
 
-  for (let j = 0; j < listOfToDoes.completed.length; j++) {
-    let value = listOfToDoes.completed[j];
-  }
+  // for (let j = 0; j < listOfToDoes.completed.length; j++) {
+  //   let value = listOfToDoes.completed[j];
+  //   addItemToDOM(value.text, value.date, value.id)
+
+  // }
 }
 
 
@@ -106,13 +108,15 @@ function addTask()  {
 
 function checkbox(entry, targetBtn) {
   
+
   targetBtn.classList.toggle("unchecked");
   entry.classList.add("lineThrought");
     if(entry.classList.contains("lineThrought")) {
-      let entryId = entry.id;
+      // let entryId = entry.id;
       // let entryDate = entry.childNodes[1].childNodes[3].childNodes[1].textContent;
       // let entryText = entry.childNodes[1].childNodes[3].textContent;
-      tasksHasBeenDone.insertAdjacentElement('afterbegin', entry);
+      // target.insertAdjacentElement('afterbegin', entry);
+      tasksHasBeenDone.insertAdjacentElement('afterbegin', entry);  
       listOfToDoes.todo.splice(listOfToDoes.todo.findIndex(function(i) { return i === entry}),1);
       console.log(listOfToDoes.todo)
       listOfToDoes.completed.push(entry)
@@ -124,13 +128,14 @@ function checkbox(entry, targetBtn) {
       // let entryDate = entry.childNodes[1].childNodes[3].childNodes[1].textContent;
       // let entryText = entry.childNodes[1].childNodes[3].textContent;
       entry.classList.remove("lineThrought");
-      tasksToDo.insertAdjacentElement('afterbegin', entry);
+      tasksToDo.insertAdjacentElement('afterbegin', entry);  
       listOfToDoes.completed.splice(listOfToDoes.completed.findIndex(function(i) { return i === entry}),1)
       listOfToDoes.todo.push(entry)
       saveLocalStorage()
       console.log(listOfToDoes)
       // localStorage.setItem('key', tasksHasBeenDone.innerHTML);
     }
+  
 }
 
 
@@ -210,7 +215,11 @@ function saveLocalStorage() {
 //     tasksHasBeenDone.innerHTML = saved
 //   }
    
-
+inputText.addEventListener('keydown', function (e) {
+  if(e.code === 'Enter') {
+    addTask(text, date, id);
+  }
+});
 buttonAdd.addEventListener("click", addTask);
 buttonDeadline.addEventListener("click", setDate);
 inputText.addEventListener("blur",errorRemove);
