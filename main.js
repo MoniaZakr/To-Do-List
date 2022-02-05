@@ -54,15 +54,14 @@ function addTodo (text, date, id) {
 
 
 function loadList() {
-  if (!listOfToDoes.todo.length && !listOfToDoes.completed.length) return;
-  for (var i = 0; i < listOfToDoes.todo.length; i++) {
-    var value = listOfToDoes.todo[i];
+  for (let i = 0; i < listOfToDoes.todo.length; i++) {
+    let value = listOfToDoes.todo[i];
     addTodo(value.text, value.date, value.id)
   }
 
 
-  for (var j = 0; j < listOfToDoes.completed.length; j++) {
-    var value = listOfToDoes.completed[j];
+  for (let j = 0; j < listOfToDoes.completed.length; j++) {
+    let value = listOfToDoes.completed[j];
   }
 }
 
@@ -117,7 +116,7 @@ function checkbox(entry, targetBtn) {
       listOfToDoes.todo.splice(listOfToDoes.todo.findIndex(function(i) { return i === entry}),1);
       console.log(listOfToDoes.todo)
       listOfToDoes.completed.push(entry)
-      console.log(listOfToDoes)
+      // console.log(listOfToDoes)
       saveLocalStorage()
     }  
     if(!targetBtn.classList.contains("unchecked")) {
@@ -144,8 +143,6 @@ function editElement(entry) {
   inputText.value = elem[0].text;
   inputDate.value = elem[0].date;
 
-  
-  
   setDate()
   
   deleteElement(entry)
