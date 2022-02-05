@@ -12,53 +12,58 @@ const text = document.querySelector(".text");
 const buttonsContainer = document.querySelector(".buttonsContainer");
 const buttonEdit = document.querySelector(".edit");
 const buttonDelete = document.querySelector(".delete");
-const tasksToDo = document.querySelector(".tasksToDo");
-const tasksHasBeenDone = document.querySelector(".tasksHasBeenDone");
+const lists = document.querySelectorAll(".lists")
+const tasksToDo = document.getElementById("tasksToDo");
+const tasksHasBeenDone = document.getElementById("tasksHasBeenDone");
 
-listOfToDoes = [];
-let id = 0;
-
-let data = localStorage.getItem("TODO");
-  if(data) {
-    listOfToDoes = JSON.parse(data);
-    loadList(listOfToDoes)
-  }else{
-    listOfToDoes = [];
+let listOfToDoes = {
+  todo:[],
+  completed:[]
 }
+id = 0;
 
 
 
+listOfToDoes = (localStorage.getItem("TODO")) ? JSON.parse(localStorage.getItem("TODO")) : {
+  todo:[],
+  completed:[]
+}  
+
+id = localStorage.getItem("idTODO") ? JSON.parse(localStorage.getItem("idTODO")) : 0;
+loadList();
+
+ 
+  
 function createToDo( text, date, id) {
   return `<li class="item" id=${id}>
     <section>
-      <button class="checked">
-      <svg xmlns="http://www.w3.org/2000/svg" height="" viewBox="0 0 24 24" width="" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/></svg>
-      </button>
-     <p class="text">${text}<span>${date}</span></p>
+      <button class="checked"></button>
+      <p class="text">${text}<span>${date}</span></p>
     </section>
     <div class="buttonsContainer">
-      <button class="edit" id=${id}>
-      <svg xmlns="http://www.w3.org/2000/svg" height="" viewBox="0 0 24 24" width="" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/></svg>
-      </button>
-      <button class="delete" id=${id}>
-      <svg xmlns="http://www.w3.org/2000/svg" height="" viewBox="0 0 24 24" width="" fill="#000000"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z"/></svg>
-      </button>
+      <button class="edit"></button>
+      <button class="delete"></button>
     </div>
   </li>`;
 }
 
-function addTodo (text, date, id)  {
+function addTodo (text, date, id) {
   tasksToDo.insertAdjacentHTML('afterbegin', createToDo(text, date, id)); 
-  localStorage.setItem("TODO", JSON.stringify(listOfToDoes));
 }
+  
 
 
+function loadList() {
+  if (!listOfToDoes.todo.length && !listOfToDoes.completed.length) return;
+  for (var i = 0; i < listOfToDoes.todo.length; i++) {
+    var value = listOfToDoes.todo[i];
+    addTodo(value.text, value.date, value.id)
+  }
 
 
-function loadList(array) {
-  array.forEach (function(item) {
-    addTodo(item.text, item.date, item.id)
-  })
+  for (var j = 0; j < listOfToDoes.completed.length; j++) {
+    var value = listOfToDoes.completed[j];
+  }
 }
 
 
@@ -73,62 +78,105 @@ function addTask()  {
       error.classList.remove("errorHide");
       return;
     }
-    listOfToDoes.push(
-      {
-        text: text,
-        date: date,
-        id: id
-      })
-    id++;
-    localStorage.setItem("TODO", JSON.stringify(listOfToDoes));
-    
-     
+    let entryObj = {
+      text: text,
+      date: date,
+      id: id
+    };
+  listOfToDoes.todo.push(entryObj)
   createToDo(text, date, id);
-  addTodo(text, date, id)
+  addTodo(text, date, id);
+  id++;
   clearAll(); 
+  saveLocalStorage()
+  // localStorage.setItem('key', tasksHasBeenDone.innerHTML);
 }
+// function checkbox(entry, targetBtn, ) {
+//   targetBtn.classList.toggle("unchecked");
+//   entry.classList.add("lineThrought");
+//   const list = entry.parentNode;
+//   console.log(list)
+//   let listId = list.id;
+//   console.log(listId)
 
+//   const target = (listId === "tasksToDo") ? tasksHasBeenDone: tasksToDo;
+//   target.insertAdjacentElement('afterbegin', entry);
+//   listOfToDoes.completed.push(entry)
+//   listOfToDoes.todo.splice(listOfToDoes.todo.indexOf(entry))
+// }
 
 function checkbox(entry, targetBtn) {
-  targetBtn.classList.toggle("unchecked")
+  
+  targetBtn.classList.toggle("unchecked");
   entry.classList.add("lineThrought");
     if(entry.classList.contains("lineThrought")) {
+      let entryId = entry.id;
+      // let entryDate = entry.childNodes[1].childNodes[3].childNodes[1].textContent;
+      // let entryText = entry.childNodes[1].childNodes[3].textContent;
       tasksHasBeenDone.insertAdjacentElement('afterbegin', entry);
-    }
+      listOfToDoes.todo.splice(listOfToDoes.todo.findIndex(function(i) { return i === entry}),1);
+      console.log(listOfToDoes.todo)
+      listOfToDoes.completed.push(entry)
+      console.log(listOfToDoes)
+      saveLocalStorage()
+    }  
     if(!targetBtn.classList.contains("unchecked")) {
+      // let entryId = entry.id;
+      // let entryDate = entry.childNodes[1].childNodes[3].childNodes[1].textContent;
+      // let entryText = entry.childNodes[1].childNodes[3].textContent;
       entry.classList.remove("lineThrought");
       tasksToDo.insertAdjacentElement('afterbegin', entry);
+      listOfToDoes.completed.splice(listOfToDoes.completed.findIndex(function(i) { return i === entry}),1)
+      listOfToDoes.todo.push(entry)
+      saveLocalStorage()
+      console.log(listOfToDoes)
+      // localStorage.setItem('key', tasksHasBeenDone.innerHTML);
     }
 }
+
+
 
 function editElement(entry) {
   let id = parseInt(entry.id);
-  console.log(id)
-  let elem = listOfToDoes.filter(function(item) {
+  let elem = listOfToDoes.todo.filter(function(item) {
     return item.id === id
   })
-  console.log(elem),
-  console.log(listOfToDoes)
   inputText.value = elem[0].text;
   inputDate.value = elem[0].date;
-  setDate()
 
-  entry.remove();
-  localStorage.setItem("TODO", JSON.stringify(listOfToDoes));
+  
+  
+  setDate()
+  
+  deleteElement(entry)
 }
   
 
     
 function deleteElement(entry) {
+  let index = parseInt(entry.id);
   
-  listOfToDoes.splice(entry, 1);
+  if(listOfToDoes.todo) {
+    listOfToDoes.todo.splice(listOfToDoes.todo.findIndex(function(i) {
+      return i.id === index;
+    }), 1);
+   
+  }
+  (listOfToDoes.completed.splice(listOfToDoes.completed.findIndex(function(i) {
+    return i.id === index;
+  }),1));
   entry.remove();
-  localStorage.setItem("TODO", JSON.stringify(listOfToDoes));
+  saveLocalStorage()
+
+  // localStorage.setItem("TODO", JSON.stringify(listOfToDoes));
+  // localStorage.setItem("idTODO", JSON.stringify(id));
+  // localStorage.setItem('key', tasksHasBeenDone.innerHTML);
 }
 
 const handler = (event) => {
-  const targetBtn = event.target.parentNode;
+  const targetBtn = event.target;
   const entry = targetBtn.parentNode.parentNode;
+  console.log(entry)
 
   if(targetBtn.classList.contains("delete")) {
     deleteElement(entry);
@@ -154,6 +202,16 @@ const clearAll = () => {
 const errorRemove = () => {
   error.classList.add("errorHide")
 }
+
+function saveLocalStorage() {
+  localStorage.setItem("TODO", JSON.stringify(listOfToDoes));
+  localStorage.setItem("idTODO", JSON.stringify(id));
+}
+
+// const saved = localStorage.getItem('key');
+//   if(saved) {
+//     tasksHasBeenDone.innerHTML = saved
+//   }
    
 
 buttonAdd.addEventListener("click", addTask);
