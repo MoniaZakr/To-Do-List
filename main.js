@@ -52,25 +52,14 @@ function addTodo (text, date, id) {
 }
 
 
+
+
 function loadList() {
-  listOfToDoes.todo.forEach (function(item) {
-    addTodo(item.text, item.date, item.id)
-  })
+  for (let i = 0; i < listOfToDoes.todo.length; i++) {
+    let value = listOfToDoes.todo[i];
+    addTodo(value.text, value.date, value.id)
+  }
 }
-
-// function loadList(text, date, id) {
-//   for (let i = 0; i < listOfToDoes.todo.length; i++) {
-//     let value = listOfToDoes.todo[i];
-//     addTodo(value.text, value.date, value.id)
-//   }
-// 
-
-  // for (let j = 0; j < listOfToDoes.completed.length; j++) {
-  //   let value = listOfToDoes.completed[j];
-  //   addItemToDOM(value.text, value.date, value.id)
-
-  // }
-// }
 
 
 
