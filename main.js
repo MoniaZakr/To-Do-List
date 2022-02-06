@@ -30,7 +30,7 @@ listOfToDoes = (localStorage.getItem("TODO")) ? JSON.parse(localStorage.getItem(
 }  
 
 id = localStorage.getItem("idTODO") ? JSON.parse(localStorage.getItem("idTODO")) : 0;
-loadList();
+loadList(text, date, id);
 
  
   
@@ -50,22 +50,21 @@ function createToDo( text, date, id) {
 function addTodo (text, date, id) {
   tasksToDo.insertAdjacentHTML('afterbegin', createToDo(text, date, id)); 
 }
-  
 
 
-function loadList() {
+function loadList(text, date, id) {
   for (let i = 0; i < listOfToDoes.todo.length; i++) {
     let value = listOfToDoes.todo[i];
     addTodo(value.text, value.date, value.id)
   }
-
+}
 
   // for (let j = 0; j < listOfToDoes.completed.length; j++) {
   //   let value = listOfToDoes.completed[j];
   //   addItemToDOM(value.text, value.date, value.id)
 
   // }
-}
+
 
 
 
@@ -116,11 +115,13 @@ function checkbox(entry, targetBtn) {
       // let entryDate = entry.childNodes[1].childNodes[3].childNodes[1].textContent;
       // let entryText = entry.childNodes[1].childNodes[3].textContent;
       // target.insertAdjacentElement('afterbegin', entry);
-      tasksHasBeenDone.insertAdjacentElement('afterbegin', entry);  
-      listOfToDoes.todo.splice(listOfToDoes.todo.findIndex(function(i) { return i === entry}),1);
-      console.log(listOfToDoes.todo)
+       
+      listOfToDoes.todo.splice(listOfToDoes.todo.indexOf(entry),1);
+      console.log(listOfToDoes.todo);
+      entry.remove()
       listOfToDoes.completed.push(entry)
-      // console.log(listOfToDoes)
+      tasksHasBeenDone.insertAdjacentElement('afterbegin', entry); 
+      console.log(listOfToDoes)
       saveLocalStorage()
     }  
     if(!targetBtn.classList.contains("unchecked")) {
@@ -128,9 +129,11 @@ function checkbox(entry, targetBtn) {
       // let entryDate = entry.childNodes[1].childNodes[3].childNodes[1].textContent;
       // let entryText = entry.childNodes[1].childNodes[3].textContent;
       entry.classList.remove("lineThrought");
-      tasksToDo.insertAdjacentElement('afterbegin', entry);  
-      listOfToDoes.completed.splice(listOfToDoes.completed.findIndex(function(i) { return i === entry}),1)
+        
+      listOfToDoes.completed.splice(listOfToDoes.completed.indexOf(entry),1)
+      entry.remove()
       listOfToDoes.todo.push(entry)
+      tasksToDo.insertAdjacentElement('afterbegin', entry);
       saveLocalStorage()
       console.log(listOfToDoes)
       // localStorage.setItem('key', tasksHasBeenDone.innerHTML);
