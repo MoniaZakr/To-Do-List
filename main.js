@@ -20,7 +20,7 @@ let listOfToDoes = {
   todo:[],
   completed:[]
 }
-id = 0;
+let id = 0;
 
 
 
@@ -30,6 +30,7 @@ listOfToDoes = (localStorage.getItem("TODO")) ? JSON.parse(localStorage.getItem(
 }  
 
 id = localStorage.getItem("idTODO") ? JSON.parse(localStorage.getItem("idTODO")) : 0;
+
 loadList();
 
  
@@ -47,7 +48,7 @@ function createToDo( text, date, id) {
   </li>`;
 }
 
-function addTodo (text, date, id) {
+function addTodo (text, date, id,) {
   tasksToDo.insertAdjacentHTML('afterbegin', createToDo(text, date, id)); 
 }
 
@@ -55,10 +56,33 @@ function addTodo (text, date, id) {
 
 
 function loadList() {
-  for (let i = 0; i < listOfToDoes.todo.length; i++) {
-    let value = listOfToDoes.todo[i];
-    addTodo(value.text, value.date, value.id)
+  if(listOfToDoes.todo.length || listOfToDoes.completed.length) {
+    for (let i = 0; i < listOfToDoes.todo.length; i++) {
+      let value = listOfToDoes.todo[i];
+      addTodo(value.text, value.date, value.id)
+    }
+    for (let j = 0; j < listOfToDoes.completed.length; j++) {
+      let value = listOfToDoes.completed[j];
+      addTodoCompleted(value.text, value.date, value.id)
+    }
   }
+}
+
+function createTodoCompleted(text, date, id) {
+  return `<li class="item lineThrought" id=${id}>
+    <section>
+      <button class="checked unchecked"></button>
+      <p class="text">${text}<span>${date}</span></p>
+    </section>
+    <div class="buttonsContainer">
+      <button class="edit"></button>
+      <button class="delete"></button>
+    </div>
+  </li>`;
+}
+
+function addTodoCompleted(text, date, id) {
+   tasksHasBeenDone.insertAdjacentHTML("afterbegin", createTodoCompleted(text, date, id))
 }
 
 
@@ -84,21 +108,8 @@ function addTask()  {
   id++;
   clearAll(); 
   saveLocalStorage()
-  // localStorage.setItem('key', tasksHasBeenDone.innerHTML);
 }
-// function checkbox(entry, targetBtn, ) {
-//   targetBtn.classList.toggle("unchecked");
-//   entry.classList.add("lineThrought");
-//   const list = entry.parentNode;
-//   console.log(list)
-//   let listId = list.id;
-//   console.log(listId)
-
-//   const target = (listId === "tasksToDo") ? tasksHasBeenDone: tasksToDo;
-//   target.insertAdjacentElement('afterbegin', entry);
-//   listOfToDoes.completed.push(entry)
-//   listOfToDoes.todo.splice(listOfToDoes.todo.indexOf(entry))
-// }
+// 
 
 function checkbox(entry, targetBtn) {
   
@@ -106,32 +117,44 @@ function checkbox(entry, targetBtn) {
   targetBtn.classList.toggle("unchecked");
   entry.classList.add("lineThrought");
     if(entry.classList.contains("lineThrought")) {
-      // let entryId = entry.id;
-      // let entryDate = entry.childNodes[1].childNodes[3].childNodes[1].textContent;
-      // let entryText = entry.childNodes[1].childNodes[3].textContent;
-      // target.insertAdjacentElement('afterbegin', entry);
-       
-      listOfToDoes.todo.splice(listOfToDoes.todo.indexOf(entry),1);
-      console.log(listOfToDoes.todo);
       entry.remove()
-      listOfToDoes.completed.push(entry)
-      tasksHasBeenDone.insertAdjacentElement('afterbegin', entry); 
-      console.log(listOfToDoes)
+      let entryId = parseInt(entry.id)
+      
+      let entryElement = listOfToDoes.todo.filter(function(item) {
+        return item.id === entryId
+      });
+      console.log(entryElement)
+      entryElement = entryElement[0];
+      let elements = listOfToDoes.todo.filter(function(item) {
+        return item.id !== entryId
+      });
+      console.log(elements)
+      listOfToDoes.todo = elements;
+      listOfToDoes.completed.push(entryElement)
+      tasksHasBeenDone.insertAdjacentElement('afterbegin', entry);
+
       saveLocalStorage()
     }  
     if(!targetBtn.classList.contains("unchecked")) {
-      // let entryId = entry.id;
-      // let entryDate = entry.childNodes[1].childNodes[3].childNodes[1].textContent;
-      // let entryText = entry.childNodes[1].childNodes[3].textContent;
       entry.classList.remove("lineThrought");
-        
-      listOfToDoes.completed.splice(listOfToDoes.completed.indexOf(entry),1)
-      entry.remove()
-      listOfToDoes.todo.push(entry)
+      entry.remove();
+
+      let entryId = parseInt(entry.id);
+      
+      let entryElement = listOfToDoes.completed.filter(function(item) {
+        return item.id === entryId
+      });
+      console.log(entryElement)
+
+      entryElement = entryElement[0];
+      let elements = listOfToDoes.completed.filter(function(item) {
+        return item.id !== entryId
+      });
+      listOfToDoes.completed = elements;
+      listOfToDoes.todo.push(entryElement)
       tasksToDo.insertAdjacentElement('afterbegin', entry);
+      
       saveLocalStorage()
-      console.log(listOfToDoes)
-      // localStorage.setItem('key', tasksHasBeenDone.innerHTML);
     }
   
 }
@@ -139,12 +162,12 @@ function checkbox(entry, targetBtn) {
 
 
 function editElement(entry) {
-  let id = parseInt(entry.id);
-  let elem = listOfToDoes.todo.filter(function(item) {
-    return item.id === id
+  let entryId= parseInt(entry.id);
+  let editedElem = listOfToDoes.todo.filter(function(item) {
+    return item.id === entryId
   })
-  inputText.value = elem[0].text;
-  inputDate.value = elem[0].date;
+  inputText.value = editedElem[0].text;
+  inputDate.value = editedElem[0].date;
 
   setDate()
   
@@ -154,23 +177,18 @@ function editElement(entry) {
 
     
 function deleteElement(entry) {
-  let index = parseInt(entry.id);
+  let entryId = parseInt(entry.id);
   
   if(listOfToDoes.todo) {
     listOfToDoes.todo.splice(listOfToDoes.todo.findIndex(function(i) {
-      return i.id === index;
+      return i.id === entryId;
     }), 1);
-   
   }
   (listOfToDoes.completed.splice(listOfToDoes.completed.findIndex(function(i) {
-    return i.id === index;
+    return i.id === entryId;
   }),1));
   entry.remove();
   saveLocalStorage()
-
-  // localStorage.setItem("TODO", JSON.stringify(listOfToDoes));
-  // localStorage.setItem("idTODO", JSON.stringify(id));
-  // localStorage.setItem('key', tasksHasBeenDone.innerHTML);
 }
 
 const handler = (event) => {
