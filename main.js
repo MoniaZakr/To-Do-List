@@ -174,27 +174,34 @@ function editElement(entry) {
   deleteElement(entry)
 }
   
-
-    
 function deleteElement(entry) {
   let entryId = parseInt(entry.id);
-  
-  if(listOfToDoes.todo) {
-    listOfToDoes.todo.splice(listOfToDoes.todo.findIndex(function(i) {
-      return i.id === entryId;
-    }), 1);
-  }
-  (listOfToDoes.completed.splice(listOfToDoes.completed.findIndex(function(i) {
-    return i.id === entryId;
-  }),1));
   entry.remove();
+  if(tasksToDo) {
+    let entryDel = listOfToDoes.todo.filter(function(item) {
+      return item.id === entryId;
+    })
+    entryDel = entryDel[0];
+    let elementsDel = listOfToDoes.todo.filter(function(item) {
+      return item.id !== entryId;
+    })
+    listOfToDoes.todo = elementsDel
+  }
+    let entryDel = listOfToDoes.completed.filter(function(item) {
+      return item.id === entryId;
+    })
+    entryDel = entryDel[0];
+    let elementsDel= listOfToDoes.completed.filter(function(item) {
+      return item.id !== entryId;
+    })
+    listOfToDoes.completed = elementsDel
+  
   saveLocalStorage()
 }
 
 const handler = (event) => {
   const targetBtn = event.target;
   const entry = targetBtn.parentNode.parentNode;
-  console.log(entry)
 
   if(targetBtn.classList.contains("delete")) {
     deleteElement(entry);
@@ -214,9 +221,7 @@ const clearAll = () => {
   inputText.value = "";
   inputDate.value = "";
 }
-
-
-    
+   
 const errorRemove = () => {
   error.classList.add("errorHide")
 }
@@ -225,12 +230,7 @@ function saveLocalStorage() {
   localStorage.setItem("TODO", JSON.stringify(listOfToDoes));
   localStorage.setItem("idTODO", JSON.stringify(id));
 }
-
-// const saved = localStorage.getItem('key');
-//   if(saved) {
-//     tasksHasBeenDone.innerHTML = saved
-//   }
-   
+ 
 inputText.addEventListener('keydown', function (e) {
   if(e.code === 'Enter') {
     addTask(text, date, id);
