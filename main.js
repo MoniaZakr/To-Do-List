@@ -31,7 +31,7 @@ listOfToDoes = (localStorage.getItem("TODO")) ? JSON.parse(localStorage.getItem(
 
 id = localStorage.getItem("idTODO") ? JSON.parse(localStorage.getItem("idTODO")) : 0;
 
-loadList();
+loadList(listOfToDoes.todo, listOfToDoes.completed);
 
  
   
@@ -55,7 +55,7 @@ function addTodo (text, date, id,) {
 
 
 
-function loadList() {
+function loadList(listOfToDoes) {
   if(listOfToDoes.todo.length || listOfToDoes.completed.length) {
     for (let i = 0; i < listOfToDoes.todo.length; i++) {
       let value = listOfToDoes.todo[i];
