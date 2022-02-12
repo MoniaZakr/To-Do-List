@@ -55,7 +55,7 @@ function addTodo (text, date, id,) {
 
 
 
-function loadList(listOfToDoes) {
+function loadList({todo, completed}) {
   if(listOfToDoes.todo.length || listOfToDoes.completed.length) {
     for (let i = 0; i < listOfToDoes.todo.length; i++) {
       let value = listOfToDoes.todo[i];
