@@ -113,57 +113,84 @@ function addTask()  {
 
 function checkbox(entry, targetBtn) {
   
+  let parent_ul = entry.parentNode; 
+  let lista_z_ktorej_usuwamy;
+  let lista_na_ktora_dodajemy; 
+  let kierunek_pzreniesienia;
 
-  targetBtn.classList.toggle("unchecked");
-  entry.classList.add("lineThrought");
-    if(entry.classList.contains("lineThrought")) {
-      entry.remove()
-      let entryId = parseInt(entry.id)
-      
-      let entryElement = listOfToDoes.todo.filter(function(item) {
-        return item.id === entryId
-      });
-      console.log(entryElement)
-      entryElement = entryElement[0];
-      let elements = listOfToDoes.todo.filter(function(item) {
-        return item.id !== entryId
-      });
-      console.log(elements)
-      listOfToDoes.todo = elements;
-      listOfToDoes.completed.push(entryElement)
-      tasksHasBeenDone.insertAdjacentElement('afterbegin', entry);
+  if (parent_ul.classList.contains('tasksHasBeenDone')){
+    lista_z_ktorej_usuwamy = listOfToDoes.completed;
+    lista_na_ktora_dodajemy = listOfToDoes.todo;
+    kierunek_pzreniesienia = "z prawej do lewej";
+  }
+  else{
+    lista_z_ktorej_usuwamy = listOfToDoes.todo;
+    lista_na_ktora_dodajemy = listOfToDoes.completed;
+    kierunek_pzreniesienia = "z lewej do prawej";
+  }
 
-      saveLocalStorage()
-    }  
-    if(!targetBtn.classList.contains("unchecked")) {
-      entry.classList.remove("lineThrought");
-      entry.remove();
-
-      let entryId = parseInt(entry.id);
-      
-      let entryElement = listOfToDoes.completed.filter(function(item) {
-        return item.id === entryId
-      });
-      console.log(entryElement)
-
-      entryElement = entryElement[0];
-      let elements = listOfToDoes.completed.filter(function(item) {
-        return item.id !== entryId
-      });
-      listOfToDoes.completed = elements;
-      listOfToDoes.todo.push(entryElement)
-      tasksToDo.insertAdjacentElement('afterbegin', entry);
-      
-      saveLocalStorage()
-    }
   
+  if(kierunek_pzreniesienia == "z lewej do prawej"){
+    targetBtn.classList.add("unchecked");
+    entry.classList.add("lineThrought");
+  }
+  else{
+    targetBtn.classList.remove("unchecked");
+    entry.classList.remove("lineThrought");
+  }
+
+  entry.remove()
+  let entryId = parseInt(entry.id)
+      
+  let entryElement = lista_z_ktorej_usuwamy.filter(function(item) {
+        return item.id === entryId
+  });
+
+  console.log(entryElement);
+  entryElement = entryElement[0];
+  
+  let elements = lista_z_ktorej_usuwamy.filter(function(item) {
+        return item.id !== entryId
+  });
+
+  console.log(elements);
+  lista_z_ktorej_usuwamy = elements;
+  lista_na_ktora_dodajemy.push(entryElement);
+
+  if (kierunek_pzreniesienia == "z lewej do prawej"){
+    tasksHasBeenDone.insertAdjacentElement('afterbegin', entry);
+    listOfToDoes.todo = lista_z_ktorej_usuwamy;  
+    listOfToDoes.completed = lista_na_ktora_dodajemy;
+
+  }
+  else{
+    tasksToDo.insertAdjacentElement('afterbegin', entry);
+    listOfToDoes.completed = lista_z_ktorej_usuwamy;  
+    listOfToDoes.todo = lista_na_ktora_dodajemy;
+  }
+
+  saveLocalStorage();
+      
 }
 
 
 
 function editElement(entry) {
+
+  let parent_ul = entry.parentNode; 
+  let lista_na_ktorej_szukamy; 
+
+  if (parent_ul.classList.contains('tasksHasBeenDone')){
+      console.log('kliknięto edycję na elemencie znajdującym się na has been done - więc filtrujemy completed');
+      lista_na_ktorej_szukamy = listOfToDoes.completed;
+  }
+  else{
+      console.log('kliknięto edycję na elemencie znajdującym się na todo - więc filtrujemy toto');
+      lista_na_ktorej_szukamy = listOfToDoes.todo;
+  }
+
   let entryId= parseInt(entry.id);
-  let editedElem = listOfToDoes.todo.filter(function(item) {
+  let editedElem = lista_na_ktorej_szukamy.filter(function(item) {
     return item.id === entryId
   })
   inputText.value = editedElem[0].text;
