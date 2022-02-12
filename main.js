@@ -111,64 +111,86 @@ function addTask()  {
 }
 // 
 
+
 function checkbox(entry, targetBtn) {
   
+  let parentUl = entry.parentNode;
+  let listToRemoveTask;
+  let listToAddTask;
+  let direction;
 
-  targetBtn.classList.toggle("unchecked");
-  entry.classList.add("lineThrought");
-    if(entry.classList.contains("lineThrought")) {
-      entry.remove()
-      let entryId = parseInt(entry.id)
+  if(parentUl.classList.contains('tasksHasBeenDone')) {
+    listToRemoveTask = listOfToDoes.completed;
+    listToAddTask = listOfToDoes.todo;
+    direction = "toLeft";
+  }
+  else {
+    listToRemoveTask = listOfToDoes.todo;
+    listToAddTask = listOfToDoes.completed;
+    direction = "toRight";
+  }
+
+  if(direction === "toRight") {
+    targetBtn.classList.add("unchecked");
+    entry.classList.add("lineThrought");
+  }
+  else {
+    targetBtn.classList.remove("unchecked");
+    entry.classList.remove("lineThrought")
+  }
+
+  entry.remove();
+  let entryId = parseInt(entry.id)
       
-      let entryElement = listOfToDoes.todo.filter(function(item) {
-        return item.id === entryId
-      });
-      console.log(entryElement)
-      entryElement = entryElement[0];
-      let elements = listOfToDoes.todo.filter(function(item) {
-        return item.id !== entryId
-      });
-      console.log(elements)
-      listOfToDoes.todo = elements;
-      listOfToDoes.completed.push(entryElement)
-      tasksHasBeenDone.insertAdjacentElement('afterbegin', entry);
+  let entryElement = listToRemoveTask.filter(function(item) {
+    return item.id === entryId
+  });
+  console.log(entryElement)
 
-      saveLocalStorage()
-    }  
-    if(!targetBtn.classList.contains("unchecked")) {
-      entry.classList.remove("lineThrought");
-      entry.remove();
+  entryElement = entryElement[0];
+  let elements = listToRemoveTask.filter(function(item) {
+    return item.id !== entryId
+  });
+  listToRemoveTask = elements;
+  listToAddTask.push(entryElement);
 
-      let entryId = parseInt(entry.id);
-      
-      let entryElement = listOfToDoes.completed.filter(function(item) {
-        return item.id === entryId
-      });
-      console.log(entryElement)
-
-      entryElement = entryElement[0];
-      let elements = listOfToDoes.completed.filter(function(item) {
-        return item.id !== entryId
-      });
-      listOfToDoes.completed = elements;
-      listOfToDoes.todo.push(entryElement)
-      tasksToDo.insertAdjacentElement('afterbegin', entry);
-      
-      saveLocalStorage()
-    }
-  
+  if(direction === "toRight") {
+    tasksHasBeenDone.insertAdjacentElement('afterbegin', entry);
+    listOfToDoes.todo = listToRemoveTask;
+    listOfToDoes.completed = listToAddTask;
+  }
+  else {
+    tasksToDo.insertAdjacentElement('afterbegin', entry);
+    listOfToDoes.completed = listToRemoveTask
+    listOfToDoes.todo = listToAddTask;
+  }
+  saveLocalStorage();
 }
 
 
 
 function editElement(entry) {
-  let entryId= parseInt(entry.id);
-  let editedElem = listOfToDoes.todo.filter(function(item) {
-    return item.id === entryId
+
+  let parentUl = entry.parentNode;
+  let searchList;
+
+  if(parentUl.classList.contains('tasksHasBeenDone')) {
+    searchList = listOfToDoes.completed
+  }
+  else {
+    searchList = listOfToDoes.todo
+  }
+
+  let entryId = parseInt(entry.id);
+  let editedElem = searchList.filter(function(item) {
+      return item.id === entryId
   })
+    
+  console.log(editedElem);
   inputText.value = editedElem[0].text;
   inputDate.value = editedElem[0].date;
 
+  deleteElement(entry)
   setDate()
   
   deleteElement(entry)
@@ -207,7 +229,7 @@ const handler = (event) => {
     deleteElement(entry);
   }else if(targetBtn.classList.contains("edit")) {
     editElement(entry);
-  }else if(targetBtn.classList.contains("checked")) {
+  }else if(targetBtn.classList.contains("checked") || (targetBtn.classList.contains("unchecked"))) {
     checkbox(entry, targetBtn)
   }
 }
