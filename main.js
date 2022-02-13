@@ -249,7 +249,6 @@ inputText.addEventListener('keydown', function (e) {
     addTask(text, date, id);
   }
 });
-window.addEventListener('DOMContentLoaded', loadList);
 buttonAdd.addEventListener("click", addTask);
 buttonDeadline.addEventListener("click", setDate);
 inputText.addEventListener("blur",errorRemove);
