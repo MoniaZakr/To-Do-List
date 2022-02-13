@@ -22,8 +22,6 @@ let listOfToDoes = {
 }
 let id = 0;
 
-
-
 listOfToDoes = (localStorage.getItem("TODO")) ? JSON.parse(localStorage.getItem("TODO")) : {
   todo:[],
   completed:[]
@@ -31,7 +29,7 @@ listOfToDoes = (localStorage.getItem("TODO")) ? JSON.parse(localStorage.getItem(
 
 id = localStorage.getItem("idTODO") ? JSON.parse(localStorage.getItem("idTODO")) : 0;
 
-loadList(text, date, id);
+loadList();
 
  
   
@@ -52,19 +50,13 @@ function addTodo (text, date, id,) {
   tasksToDo.insertAdjacentHTML('afterbegin', createToDo(text, date, id)); 
 }
 
-
-
-
-function loadList(text, date, id) {
-  if (!listOfToDoes.todo.length && !listOfToDoes.completed.length) return
-  for (let i = 0; i <= listOfToDoes.todo.length-1; i++) {
-    let value = listOfToDoes.todo[i];
-    addTodo(value.text, value.date, value.id)
-  }
-  for (let j = 0; j <= listOfToDoes.completed.length-1; j++) {
-    let value = listOfToDoes.completed[j];
-    addTodoCompleted(value.text, value.date, value.id)
-  }
+function loadList() {
+  listOfToDoes.todo.forEach(function(item) {
+    addTodo(item.text, item.date, item.id)
+  })
+  listOfToDoes.completed.forEach(function(item) {
+    addTodoCompleted(item.text, item.date, item.id)
+  })
 }
 
 function createTodoCompleted(text, date, id) {
