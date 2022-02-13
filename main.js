@@ -63,7 +63,7 @@ function loadList(text, date, id) {
   }
   for (let j = 0; j < listOfToDoes.completed.length; j++) {
     let value = listOfToDoes.completed[j];
-    ddTodoCompleted(value.text, value.date, value.id)
+    addTodoCompleted(value.text, value.date, value.id)
   }
 }
 
