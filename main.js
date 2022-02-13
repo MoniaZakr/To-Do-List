@@ -56,15 +56,14 @@ function addTodo (text, date, id,) {
 
 
 function loadList(text, date, id) {
-  if(listOfToDoes.todo.length || listOfToDoes.completed.length) {
-    for (let i = 0; i <= listOfToDoes.todo.length; i++) {
-      let value = listOfToDoes.todo[i];
-      addTodo(value.text, value.date, value.id)
-    }
-    for (let j = 0; j <= listOfToDoes.completed.length; j++) {
-      let value = listOfToDoes.completed[j];
-      addTodoCompleted(value.text, value.date, value.id)
-    }
+  if (!listOfToDoes.todo.length && !listOfToDoes.completed.length) return
+  for (let i = 0; i < listOfToDoes.todo.length; i++) {
+    let value = listOfToDoes.todo[i];
+    addTodo(value.text, value.date, value.id)
+  }
+  for (let j = 0; j < listOfToDoes.completed.length; j++) {
+    let value = listOfToDoes.completed[j];
+    ddTodoCompleted(value.text, value.date, value.id)
   }
 }
 
